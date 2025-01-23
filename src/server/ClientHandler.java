@@ -19,5 +19,22 @@ public class ClientHandler extends Thread {
             while((received=in.readLine()))!=null){
             System.out.println("Received"+received);
             }
+        }catch(IOException e){
+            e.printStackTrace();
+        }finally{
+            try {
+                clientSocket.close();
+            } catch(IOException e){
+                e.printStackTrace();
+
+            }
+        }
+    }
+    public static void main(String Args[]){
+        try {
+            VPNClient client = new VPNClient();
+            client.start();
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
