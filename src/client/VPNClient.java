@@ -12,13 +12,35 @@ public class VPNClient {
         System.out.println("Connected to VPN Server at " + SERVER_IP + ":" + PORT);
     }
     public void start(){
-        try(BufferedReader in=new BufferedReader(new InputStreamReader(socket.getInputStream())))
-            PrintWriter out=new PrintWriter(socket.getOutputStream(),true);
-            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in))) {
+        try(BufferedReader in=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter  out=new PrintWriter(socket.getOutputStream(),true);
+            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in))){
             String userMessage;
-            while(True){
+            while(true){
                 System.out.print("Enter a message to send (or 'exit')to quit");
                 userMessage = userInput.readLine();
+                if("exit".equalsIgnoreCase(userMessage)){
+                    break;
+                }
+                out.println(userMessage);
+                System.out.println("Server replied"+in.readLine());
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                socket.close();
+            } catch(IOException e){
+                e.printStackTrace();
             }
         }
+    }
+    public static void main(String args[]){
+        try {
+            VPNClient client = new VPNClient();
+            client.start();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 }
