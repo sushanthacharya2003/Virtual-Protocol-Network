@@ -14,10 +14,10 @@ public class ClientHandler extends Thread {
     public void run() {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
              PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
-
             String received;
             while ((received = in.readLine()) != null) {
                 System.out.println("Received: " + received);
+                // Here, you can implement encryption before sending it back.
                 out.println("Echo: " + received);
             }
         } catch (IOException e) {
